@@ -10,15 +10,19 @@ fun main() {
 
     val game = TicTacToe()
     game.startGame(playerX, playerO)
-    printBoard(game)
+    println(printBoard(game))
 
     playGame(game)
 
+    println(evaluateGame(game))
+}
+
+fun evaluateGame(game : TicTacToe) : String {
     val winner = game.getWinner()
-    if (winner != null) {
-        println("${winner.name} wins!")
+    return if (winner != null) {
+        "${winner.name} wins!"
     } else {
-        println("It's a draw!")
+        "It's a draw!"
     }
 }
 
@@ -49,16 +53,18 @@ fun playGame(game : TicTacToe) {
             continue
         }
 
-        printBoard(game)
+        println(printBoard(game))
         current = game.getCurrentPlayer()
     }
 }
 
-fun printBoard(game: TicTacToe) {
-    println()
+fun printBoard(game: TicTacToe) : String {
+    var result = "\n"
     for (row in game.getBoard()) {
-        println(row.joinToString(" | "))
-        println("--+---+--")
+        result += row.joinToString(" | ")
+        result += "\n--+---+--\n"
     }
-    println()
+    result += "\n"
+
+    return result
 }

@@ -49,8 +49,9 @@ class TicTacToe {
     fun isGameOver(): Boolean = winner != null || moves == 9
 
     fun getWinner(): Player? = winner
-
     fun getBoard(): List<List<Char>> = board
-
     fun getCurrentPlayer(): Player = currentPlayer
+    fun getPlayerX(): Player = playerX
+    fun getPlayerO(): Player = playerO
+
 }
