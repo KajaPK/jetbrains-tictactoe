@@ -3,7 +3,7 @@ package org.jetbrains.kotlinx.tictactoe
 data class Player(val name: String, val symbol: Char)
 class GameAlreadyOverException : Throwable()
 
-class TicTacToe {
+open class TicTacToe {
     private val board = MutableList(3) { MutableList(3) { ' ' } }
     private lateinit var playerX: Player
     private lateinit var playerO: Player
@@ -11,7 +11,7 @@ class TicTacToe {
     private var winner: Player? = null
     private var moves = 0
 
-    fun startGame(namePlayerX: String, namePlayerO: String) {
+    fun startGame(namePlayerX: String, namePlayerO: String = "Computer") {
         this.playerX = Player(namePlayerX, 'X')
         this.playerO = Player(namePlayerO, 'O')
         this.currentPlayer = playerX
@@ -26,7 +26,7 @@ class TicTacToe {
         moves++
         checkWinner(currentPlayer)
 
-        currentPlayer = if (currentPlayer.symbol == 'X') playerO else playerX
+        currentPlayer = if (currentPlayer == playerX) playerO else playerX
     }
 
     private fun checkWinner(player: Player) {
