@@ -11,6 +11,22 @@ open class TicTacToe {
     private var winner: Player? = null
     private var moves = 0
 
+    companion object Checker {
+        fun checkWinner(symbol: Char, board: List<List<Char>>): Boolean {
+            val win = listOf(
+                listOf(board[0][0], board[0][1], board[0][2]),
+                listOf(board[1][0], board[1][1], board[1][2]),
+                listOf(board[2][0], board[2][1], board[2][2]),
+                listOf(board[0][0], board[1][0], board[2][0]),
+                listOf(board[0][1], board[1][1], board[2][1]),
+                listOf(board[0][2], board[1][2], board[2][2]),
+                listOf(board[0][0], board[1][1], board[2][2]),
+                listOf(board[0][2], board[1][1], board[2][0])
+            )
+            return win.any { line -> line.all { it == symbol } }
+        }
+    }
+
     fun startGame(namePlayerX: String, namePlayerO: String = "Computer") {
         this.playerX = Player(namePlayerX, 'X')
         this.playerO = Player(namePlayerO, 'O')
@@ -24,26 +40,9 @@ open class TicTacToe {
 
         board[row][col] = currentPlayer.symbol
         moves++
-        checkWinner(currentPlayer)
+        if(checkWinner(currentPlayer.symbol, board)) winner = currentPlayer
 
         currentPlayer = if (currentPlayer == playerX) playerO else playerX
-    }
-
-    private fun checkWinner(player: Player) {
-        val s = player.symbol
-        val win = listOf(
-            listOf(board[0][0], board[0][1], board[0][2]),
-            listOf(board[1][0], board[1][1], board[1][2]),
-            listOf(board[2][0], board[2][1], board[2][2]),
-            listOf(board[0][0], board[1][0], board[2][0]),
-            listOf(board[0][1], board[1][1], board[2][1]),
-            listOf(board[0][2], board[1][2], board[2][2]),
-            listOf(board[0][0], board[1][1], board[2][2]),
-            listOf(board[0][2], board[1][1], board[2][0])
-        )
-        if (win.any { line -> line.all { it == s } }) {
-            winner = player
-        }
     }
 
     fun isGameOver(): Boolean = winner != null || moves == 9
