@@ -3,7 +3,9 @@ package org.jetbrains.kotlinx.tictactoe
 class TicTacToeComputer : TicTacToe() {
 
     fun makeComputerMove(compChar: Char = 'O', humanChar: Char = 'X') {
-        if (isGameOver()) throw GameAlreadyOverException()
+        if (isGameOver()) throw GameAlreadyOverException(
+            if (getWinner() != null) "${getWinner()!!.name} has already won!" else "It's a draw! The board is already full."
+        )
         if (getCurrentPlayer().symbol == humanChar) return
 
         val (row, col) = findBestMove(compChar, humanChar)

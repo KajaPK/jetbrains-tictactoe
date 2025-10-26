@@ -66,6 +66,7 @@ fun <T: TicTacToe> playGame(game: T, onComputerMove: ((T) -> Unit)? = null) {
             println(e.message)
             continue
         } catch (e: GameAlreadyOverException) {
+            println(e.message)
             break
         }
 

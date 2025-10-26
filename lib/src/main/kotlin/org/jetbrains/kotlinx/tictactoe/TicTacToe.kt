@@ -1,7 +1,7 @@
 package org.jetbrains.kotlinx.tictactoe
 
 data class Player(val name: String, val symbol: Char)
-class GameAlreadyOverException : Throwable()
+class GameAlreadyOverException(message: String) : Exception()
 
 open class TicTacToe {
     private val board = MutableList(3) { MutableList(3) { ' ' } }
@@ -36,7 +36,9 @@ open class TicTacToe {
     fun makeMove(row: Int, col: Int) {
         if (row !in 0..2 || col !in 0..2) throw IllegalArgumentException("Invalid coordinates! Try again.")
         if (board[row][col] != ' ') throw IllegalArgumentException("Invalid move! Try again.")
-        if (winner != null) throw GameAlreadyOverException()
+        if (isGameOver()) throw GameAlreadyOverException(
+            if (winner != null) "${winner!!.name} has already won!" else "It's a draw! The board is already full."
+        )
 
         board[row][col] = currentPlayer.symbol
         moves++
