@@ -1,7 +1,7 @@
 package org.jetbrains.kotlinx.tictactoe
 
 data class Player(val name: String, val symbol: Char)
-class GameAlreadyOverException(message: String) : Exception()
+class GameAlreadyOverException(message: String? = null) : Exception(message)
 
 open class TicTacToe {
     private val board = MutableList(3) { MutableList(3) { ' ' } }
