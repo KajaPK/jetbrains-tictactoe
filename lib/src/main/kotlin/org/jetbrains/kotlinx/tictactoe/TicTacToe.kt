@@ -3,6 +3,9 @@ package org.jetbrains.kotlinx.tictactoe
 data class Player(val name: String, val symbol: Char)
 class GameAlreadyOverException(message: String? = null) : Exception(message)
 
+/**
+ * Manages the game logic of TicTacToe
+ */
 open class TicTacToe {
     private val board = MutableList(3) { MutableList(3) { ' ' } }
     private lateinit var playerX: Player
@@ -12,6 +15,13 @@ open class TicTacToe {
     private var moves = 0
 
     companion object Checker {
+        /**
+         * Checks whether a player with the given symbol has won a game of TicTacToe.
+         *
+         * @param symbol the symbol that you want to check
+         * @param board the board that will be checked
+         * @return true if the player has won, false otherwise
+         */
         fun checkWinner(symbol: Char, board: List<List<Char>>): Boolean {
             val win = listOf(
                 listOf(board[0][0], board[0][1], board[0][2]),
@@ -27,12 +37,28 @@ open class TicTacToe {
         }
     }
 
+    /**
+     * Starts a game of TicTacToe by initializing players and setting the current player.
+     * Player with symbol X starts.
+     *
+     * @param namePlayerX the name of the player with symbol X
+     * @param namePlayerO the name of the player with symbol O
+     */
     fun startGame(namePlayerX: String, namePlayerO: String = "Computer") {
         this.playerX = Player(namePlayerX, 'X')
         this.playerO = Player(namePlayerO, 'O')
         this.currentPlayer = playerX
     }
 
+    /**
+     * Sets the spot indicated with the passed parameters to the currentPlayer's symbol.
+     * Checks whether the input is valid.
+     *
+     * @param row the row where the symbol will be placed, must be between 0 and 2
+     * @param col the column where the symbol will be placed, must be between 0 and 2
+     * @throws IllegalArgumentException if the row and/or column is not 0, 1 or 2 or if the spot is already taken
+     * @throws GameAlreadyOverException if the game has already ended
+     */
     fun makeMove(row: Int, col: Int) {
         if (row !in 0..2 || col !in 0..2) throw IllegalArgumentException("Invalid coordinates! Try again.")
         if (board[row][col] != ' ') throw IllegalArgumentException("Invalid move! Try again.")
@@ -47,6 +73,12 @@ open class TicTacToe {
         currentPlayer = if (currentPlayer == playerX) playerO else playerX
     }
 
+    /**
+     * Checks if the game is over already, either because a player has already won
+     * or because the board is already full.
+     *
+     * @return true if the game is over, false otherwise
+     */
     fun isGameOver(): Boolean = winner != null || moves == 9
 
     fun getWinner(): Player? = winner

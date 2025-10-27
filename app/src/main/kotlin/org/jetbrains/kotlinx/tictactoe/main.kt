@@ -22,6 +22,9 @@ fun main() {
     println(printResults(game))
 }
 
+/**
+ * Sets up the game to play against an AI opponent.
+ */
 fun playComputerMode(game: TicTacToeComputer) {
     print("Enter name for Player X: ")
     val playerX = readln()
@@ -30,6 +33,9 @@ fun playComputerMode(game: TicTacToeComputer) {
     playGame(game) { it.makeComputerMove() }
 }
 
+/**
+ * Sets up the game to play against a human opponent.
+ */
 fun playHumanMode(game: TicTacToe) {
     print("Enter name for Player X: ")
     val playerX = readln()
@@ -40,7 +46,12 @@ fun playHumanMode(game: TicTacToe) {
     playGame(game)
 }
 
-
+/**
+ * The game loop, prints the state of the board after every move
+ * and prompts the player(s) for their move.
+ *
+ * @param onComputerMove used to get the AI move, null if two humans are playing against each other
+ */
 fun <T: TicTacToe> playGame(game: T, onComputerMove: ((T) -> Unit)? = null) {
     println(printBoard(game))
     while (!game.isGameOver()) {
@@ -53,12 +64,7 @@ fun <T: TicTacToe> playGame(game: T, onComputerMove: ((T) -> Unit)? = null) {
             println("Invalid input. Try again.")
             continue
         }
-
         val (row, col) = input.mapNotNull { it.toIntOrNull() }
-        if (row !in 0..2 || col !in 0..2) {
-            println("Invalid coordinates. Try again.")
-            continue
-        }
 
         try {
             game.makeMove(row, col)
@@ -81,6 +87,11 @@ fun <T: TicTacToe> playGame(game: T, onComputerMove: ((T) -> Unit)? = null) {
     }
 }
 
+/**
+ * Prints the result of the given game.
+ *
+ * @param game the game which results will be printed
+ */
 fun printResults(game : TicTacToe) : String {
     val winner = game.getWinner()
     return if (winner != null) {
@@ -90,6 +101,11 @@ fun printResults(game : TicTacToe) : String {
     }
 }
 
+/**
+ * Prints the current state of the board.
+ *
+ * @param game the game which state will be printed
+ */
 fun printBoard(game: TicTacToe): String {
     val board = game.getBoard()
     val sb = StringBuilder("\n")
